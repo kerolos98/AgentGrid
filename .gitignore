@@ -1,0 +1,93 @@
+# ----------------------
+# Python basics
+# ----------------------
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.env/
+.env.*
+.venv/
+
+# ----------------------
+# Packaging / build
+# ----------------------
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# ----------------------
+# Logs
+# ----------------------
+*.log
+
+# ----------------------
+# IDE / Editor
+# ----------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ----------------------
+# OS files
+# ----------------------
+.DS_Store
+Thumbs.db
+
+# ----------------------
+# Environment variables
+# ----------------------
+.env
+.env.local
+
+# ----------------------
+# Jupyter notebooks
+# ----------------------
+.ipynb_checkpoints/
+
+# ----------------------
+# Model / AI artifacts
+# ----------------------
+*.bin
+*.pt
+*.pth
+*.onnx
+*.gguf
+
+# ----------------------
+# Vector DB / RAG storage
+# ----------------------
+db/
+chroma/
+faiss_index/
+*.faiss
+*.pkl
+
+# ----------------------
+# Temp / cache
+# ----------------------
+.cache/
+tmp/
+temp/
+
+# ----------------------
+# Coverage / testing
+# ----------------------
+.coverage
+htmlcov/
+.pytest_cache/
+
+# ----------------------
+# GitHub CLI / tokens (IMPORTANT)
+# ----------------------
+*.token
+*.key
+
+# ----------------------
+# Local config files
+# ----------------------
+config.local.json
