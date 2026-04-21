@@ -261,6 +261,7 @@ class Orchestrator:
                 messages=state.messages,
                 tools=tools,
                 tool_choice="auto",
+                **active_params 
             )
 
             step += 1
