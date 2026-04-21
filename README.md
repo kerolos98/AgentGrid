@@ -16,7 +16,6 @@ Lightweight agent orchestration framework with tool calling, local LLM support, 
 * 🧠 **Local LLM compatible (LiteLLM / Ollama)**
 * 🔍 **RAG as tools**
 * 🧩 **Zero-boilerplate tool creation**
-* 🔗 **GitHub automation tools**
 
 ---
 
