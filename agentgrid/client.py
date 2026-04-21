@@ -1,9 +1,10 @@
 import asyncio
 import sys
-from mcp import ClientSession, StdioServerParameters
-from mcp.client.stdio import stdio_client
 from contextlib import AsyncExitStack
 from typing import Optional
+from mcp import ClientSession, StdioServerParameters
+from mcp.client.stdio import stdio_client
+
 
 
 class MCPClient:

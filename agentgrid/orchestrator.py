@@ -3,10 +3,11 @@ import json
 from dataclasses import dataclass, field
 from typing import List, Any, Optional, Dict
 
-from utils.utils import parse_doc
-from client import MCPClient
+from .utils.utils import parse_doc
+from .client import MCPClient
+from .components import MCPTool, MCPResource, MCPPrompt
+
 from mcp.server.fastmcp import FastMCP
-from components import MCPTool, MCPResource, MCPPrompt
 from litellm import completion
 from pydantic import BaseModel, Field
 
@@ -14,6 +15,7 @@ from pydantic import BaseModel, Field
 # ==========================
 # STATE + LOGGING LAYER
 # ==========================
+
 
 @dataclass
 class ExecutionEvent:
@@ -33,6 +35,7 @@ class AgentState:
 # ==========================
 # CORE CONFIG OBJECTS
 # ==========================
+
 
 class orch_kit(BaseModel):
     tools_list: List[Any] = Field(default_factory=list)
@@ -70,6 +73,7 @@ class AgentConfig(BaseModel):
 # ORCHESTRATOR / RUNTIME
 # ==========================
 
+
 class Orchestrator:
     def __init__(self, config: Dict):
         self.config = config
@@ -100,9 +104,13 @@ class Orchestrator:
         return None
 
     def load_modules(self):
-        modules = {"tool": self.tools_modules, "resource": self.resources_modules ,"prompt": self.prompts_modules}
+        modules = {
+            "tool": self.tools_modules,
+            "resource": self.resources_modules,
+            "prompt": self.prompts_modules,
+        }
 
-        for type,module in modules.items():
+        for type, module in modules.items():
             for mod in module:
                 for _, obj in inspect.getmembers(mod):
                     if inspect.isfunction(obj):
@@ -182,7 +190,20 @@ class Orchestrator:
     # EXECUTION ENGINE (CORE)
     # --------------------------
 
-    def run_agent(self, agent_name: str, prompt: str, max_steps: int = 8):
+    def run_agent(
+        self,
+        agent_name: str,
+        prompt: str,
+        api_base=None,
+        api_key=None,
+        api_version=None,
+        max_steps: int = 8,
+    ):
+        optional_params = {
+        "api_base": api_base,
+        "api_key": api_key,
+        "api_version": api_version
+         }
         agent = self.agents.get(agent_name)
         if not agent:
             raise ValueError("Agent not found")
@@ -193,12 +214,13 @@ class Orchestrator:
         state.messages.append({"role": "user", "content": prompt})
 
         tools = [self._tool_schema(t) for t in agent.server_meta.tools]
-
+        active_params = {k: v for k, v in optional_params.items() if v is not None}
         response = completion(
             model=agent.model,
             messages=state.messages,
             tools=tools,
             tool_choice="auto" if tools else None,
+            **active_params
         )
 
         step = 0
